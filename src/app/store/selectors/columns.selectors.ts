@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { ColumnState, adapter } from '../reducers/columns.reducers'
+import { ColumnState, columnAdapter } from '../reducers/columns.reducers'
 
 export const selectColumnState = createFeatureSelector<ColumnState>('columns')
 
@@ -8,7 +8,7 @@ export const {
   selectEntities: selectColumnEntities,
   selectIds: selectColumnIds,
   selectTotal: selectColumnTotal,
-} = adapter.getSelectors(selectColumnState)
+} = columnAdapter.getSelectors(selectColumnState)
 
 export const selectLoading = createSelector(
   selectColumnState,

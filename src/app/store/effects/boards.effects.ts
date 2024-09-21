@@ -1,79 +1,80 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { inject, Injectable } from '@angular/core'
-import { BoardsService } from '../../services/boards/boards.service'
 import * as BoardActions from '../actions/boards.actions'
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators'
+import { catchError, mergeMap } from 'rxjs/operators'
 import { of } from 'rxjs'
+import { DataService } from '../../services/data/data.service'
 
 @Injectable()
 export class BoardEffects {
   private actions$ = inject(Actions)
-  constructor(
-    private boardsService: BoardsService
-    // private actions: Actions
-  ) {
-    // console.log(this.actions.pipe())
-  }
+  constructor(private dataService: DataService) {}
 
   loadBoards$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.loadBoards),
-      switchMap(() =>
-        this.boardsService.getBoards().pipe(
-          map(boards => BoardActions.loadBoardsSuccess({ boards })),
-          catchError(error => of(BoardActions.loadBoardsFailure({ error })))
-        )
-      )
+      mergeMap(() => {
+        const boards = this.dataService.getBoards()
+        return of(BoardActions.loadBoardsSuccess({ boards }))
+      }),
+      catchError(error => of(BoardActions.loadBoardsFailure({ error })))
     )
   )
 
   loadBoard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.loadBoard),
-      mergeMap(({ name }) =>
-        this.boardsService.getBoard(name).pipe(
-          map(board => BoardActions.loadBoardSuccess({ board })),
-          catchError(error => of(BoardActions.loadBoardFailure({ error })))
-        )
-      )
+      mergeMap(action => {
+        const board = this.dataService.getBoard(action.boardName)
+        if (!board) {
+          return of(BoardActions.loadBoardFailure({ error: 'Board not found' }))
+        }
+        return of(BoardActions.loadBoardSuccess({ board }))
+      }),
+      catchError(error => of(BoardActions.loadBoardFailure({ error })))
     )
   )
 
   addBoard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.addBoard),
-      mergeMap(({ board }) =>
-        this.boardsService.createBoard(board).pipe(
-          map(newBoard => BoardActions.addBoardSuccess({ board: newBoard })),
-          catchError(error => of(BoardActions.addBoardFailure({ error })))
-        )
-      )
+      mergeMap(action => {
+        this.dataService.addBoard(action.board)
+        return of(BoardActions.addBoardSuccess({ board: action.board }))
+      }),
+      catchError(error => of(BoardActions.addBoardFailure({ error })))
     )
   )
 
   updateBoard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.updateBoard),
-      mergeMap(({ board }) =>
-        this.boardsService.updateBoard(board.name, board).pipe(
-          map(updatedBoard =>
-            BoardActions.updateBoardSuccess({ board: updatedBoard })
-          ),
-          catchError(error => of(BoardActions.updateBoardFailure({ error })))
-        )
-      )
+      mergeMap(action => {
+        const existingBoard = this.dataService.getBoard(action.board.name)
+        if (!existingBoard) {
+          return of(
+            BoardActions.updateBoardFailure({ error: 'Board not found' })
+          )
+        }
+
+        this.dataService.updateBoard(action.board)
+
+        return of(BoardActions.updateBoardSuccess({ board: action.board }))
+      }),
+      catchError(error => of(BoardActions.updateBoardFailure({ error })))
     )
   )
 
   deleteBoard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.deleteBoard),
-      mergeMap(({ boardId }) =>
-        this.boardsService.deleteBoard(boardId).pipe(
-          map(() => BoardActions.deleteBoardSuccess({ boardId })),
-          catchError(error => of(BoardActions.deleteBoardFailure({ error })))
+      mergeMap(action => {
+        this.dataService.deleteBoard(action.boardName)
+        return of(
+          BoardActions.deleteBoardSuccess({ boardName: action.boardName })
         )
-      )
+      }),
+      catchError(error => of(BoardActions.deleteBoardFailure({ error })))
     )
   )
 }

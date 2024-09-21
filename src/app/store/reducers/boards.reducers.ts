@@ -1,26 +1,29 @@
+// reducers/board.reducer.ts
 import { createReducer, on } from '@ngrx/store'
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
+import { createEntityAdapter, EntityState } from '@ngrx/entity'
 import { Board } from '../../model/model'
 import * as BoardActions from '../actions/boards.actions'
 
-export interface BoardState extends EntityState<Board> {
-  loading: boolean
-  selectedBoard?: Board | null
-  error: unknown
-}
-
-export const adapter: EntityAdapter<Board> = createEntityAdapter<Board>({
-  selectId: (board: Board) => board.name, // Assuming name is unique
+// NgRx Entity adapter for Board
+export const boardAdapter = createEntityAdapter<Board>({
+  selectId: board => board.name, // Using `name` as the unique identifier for boards
 })
 
-export const initialState: BoardState = adapter.getInitialState({
+export interface BoardState extends EntityState<Board> {
+  loading: boolean
+  error: unknown
+  selectedBoard?: Board | null
+}
+
+export const initialBoardState: BoardState = boardAdapter.getInitialState({
   loading: false,
-  selectedBoard: null,
   error: null,
+  selectedBoard: null, // To track the currently loaded board
 })
 
 export const boardReducer = createReducer(
-  initialState,
+  initialBoardState,
+
   // Load Boards
   on(BoardActions.loadBoards, state => ({
     ...state,
@@ -28,7 +31,7 @@ export const boardReducer = createReducer(
     error: null,
   })),
   on(BoardActions.loadBoardsSuccess, (state, { boards }) =>
-    adapter.setAll(boards, {
+    boardAdapter.setAll(boards, {
       ...state,
       loading: false,
     })
@@ -39,18 +42,19 @@ export const boardReducer = createReducer(
     error,
   })),
 
-  // Load One Board
+  // Load One Board by Name
   on(BoardActions.loadBoard, state => ({
     ...state,
     loading: true,
-    selectedBoard: null,
     error: null,
   })),
-  on(BoardActions.loadBoardSuccess, (state, { board }) => ({
-    ...state,
-    loading: false,
-    selectedBoard: board,
-  })),
+  on(BoardActions.loadBoardSuccess, (state, { board }) =>
+    boardAdapter.upsertOne(board, {
+      ...state,
+      loading: false,
+      selectedBoard: board,
+    })
+  ),
   on(BoardActions.loadBoardFailure, (state, { error }) => ({
     ...state,
     loading: false,
@@ -59,28 +63,16 @@ export const boardReducer = createReducer(
 
   // Add Board
   on(BoardActions.addBoardSuccess, (state, { board }) =>
-    adapter.addOne(board, state)
+    boardAdapter.addOne(board, state)
   ),
-  on(BoardActions.addBoardFailure, (state, { error }) => ({
-    ...state,
-    error,
-  })),
 
   // Update Board
   on(BoardActions.updateBoardSuccess, (state, { board }) =>
-    adapter.updateOne({ id: board.name, changes: board }, state)
+    boardAdapter.upsertOne(board, state)
   ),
-  on(BoardActions.updateBoardFailure, (state, { error }) => ({
-    ...state,
-    error,
-  })),
 
   // Delete Board
-  on(BoardActions.deleteBoardSuccess, (state, { boardId }) =>
-    adapter.removeOne(boardId, state)
-  ),
-  on(BoardActions.deleteBoardFailure, (state, { error }) => ({
-    ...state,
-    error,
-  }))
+  on(BoardActions.deleteBoardSuccess, (state, { boardName }) =>
+    boardAdapter.removeOne(boardName, state)
+  )
 )

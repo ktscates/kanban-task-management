@@ -1,85 +1,59 @@
 import { createReducer, on } from '@ngrx/store'
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity'
+import { EntityState, createEntityAdapter } from '@ngrx/entity'
 import { Subtask } from '../../model/model'
 import * as SubtaskActions from '../actions/subtasks.actions'
 
-// Define state for subtasks
+export const subtaskAdapter = createEntityAdapter<Subtask>({
+  selectId: subtask => subtask.title, // Using `name` as the unique identifier for subtasks
+})
+
 export interface SubtaskState extends EntityState<Subtask> {
   loading: boolean
   selectedSubtask?: Subtask | null
   error: unknown
 }
 
-// Create adapter for entity
-export const adapter: EntityAdapter<Subtask> = createEntityAdapter<Subtask>({
-  selectId: (subtask: Subtask) => subtask.title, // Assuming subtask name is unique
-})
-
-export const initialState: SubtaskState = adapter.getInitialState({
+export const initialState: SubtaskState = subtaskAdapter.getInitialState({
   loading: false,
   selectedSubtask: null,
   error: null,
 })
 
-// Reducer
 export const subtaskReducer = createReducer(
   initialState,
-  // Load subtasks
-  on(SubtaskActions.loadSubtasks, state => ({
-    ...state,
-    loading: true,
-    error: null,
-  })),
   on(SubtaskActions.loadSubtasksSuccess, (state, { subtasks }) =>
-    adapter.setAll(subtasks, {
-      ...state,
-      loading: false,
-    })
+    subtaskAdapter.setAll(subtasks, { ...state, error: null })
   ),
   on(SubtaskActions.loadSubtasksFailure, (state, { error }) => ({
     ...state,
-    loading: false,
     error,
   })),
-
-  // Load single subtask
-  on(SubtaskActions.loadSubtask, state => ({
+  on(SubtaskActions.loadOneSubtaskSuccess, (state, { subtask }) =>
+    subtaskAdapter.upsertOne(subtask, { ...state, error: null })
+  ),
+  on(SubtaskActions.loadOneSubtaskFailure, (state, { error }) => ({
     ...state,
-    loading: true,
-    error: null,
-  })),
-  on(SubtaskActions.loadSubtaskSuccess, (state, { subtask }) => ({
-    ...state,
-    loading: false,
-    selectedSubtask: subtask,
-  })),
-  on(SubtaskActions.loadSubtaskFailure, (state, { error }) => ({
-    ...state,
-    loading: false,
     error,
   })),
-
-  // Add subtask
   on(SubtaskActions.addSubtaskSuccess, (state, { subtask }) =>
-    adapter.addOne(subtask, state)
+    subtaskAdapter.addOne(subtask, { ...state, error: null })
   ),
   on(SubtaskActions.addSubtaskFailure, (state, { error }) => ({
     ...state,
     error,
   })),
-
-  // Update subtask
   on(SubtaskActions.updateSubtaskSuccess, (state, { subtask }) =>
-    adapter.updateOne({ id: subtask.title, changes: subtask }, state)
+    subtaskAdapter.updateOne(
+      { id: subtask.title, changes: subtask },
+      { ...state, error: null }
+    )
   ),
   on(SubtaskActions.updateSubtaskFailure, (state, { error }) => ({
     ...state,
     error,
   })),
-
-  // Delete subtask
   on(SubtaskActions.deleteSubtaskSuccess, (state, { subtaskName }) =>
-    adapter.removeOne(subtaskName, state)
+    subtaskAdapter.removeOne(subtaskName, { ...state, error: null })
   ),
   on(SubtaskActions.deleteSubtaskFailure, (state, { error }) => ({
     ...state,

@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store'
 import { Task } from '../../model/model'
 
-// Load tasks
+// Load all tasks
 export const loadTasks = createAction(
   '[Task] Load Tasks',
   props<{ boardName: string; columnName: string }>()
@@ -18,18 +18,18 @@ export const loadTasksFailure = createAction(
 )
 
 // Load one task
-export const loadTask = createAction(
-  '[Task] Load Task',
+export const loadOneTask = createAction(
+  '[Task] Load One Task',
   props<{ boardName: string; columnName: string; taskName: string }>()
 )
 
-export const loadTaskSuccess = createAction(
-  '[Task] Load Task Success',
+export const loadOneTaskSuccess = createAction(
+  '[Task] Load One Task Success',
   props<{ task: Task }>()
 )
 
-export const loadTaskFailure = createAction(
-  '[Task] Load Task Failure',
+export const loadOneTaskFailure = createAction(
+  '[Task] Load One Task Failure',
   props<{ error: unknown }>()
 )
 
@@ -52,12 +52,7 @@ export const addTaskFailure = createAction(
 // Update task
 export const updateTask = createAction(
   '[Task] Update Task',
-  props<{
-    boardName: string
-    columnName: string
-    taskName: string
-    task: Task
-  }>()
+  props<{ boardName: string; columnName: string; task: Task }>()
 )
 
 export const updateTaskSuccess = createAction(

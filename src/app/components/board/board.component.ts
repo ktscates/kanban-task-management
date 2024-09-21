@@ -22,6 +22,9 @@ export class BoardComponent {
     private modalService: ModalService
   ) {
     this.selectedBoard$ = this.store.select(selectCurrentBoard)
+    this.selectedBoard$.subscribe(board => {
+      console.log('Selected Board:', board)
+    })
   }
 
   onTaskSelect(task: Task) {

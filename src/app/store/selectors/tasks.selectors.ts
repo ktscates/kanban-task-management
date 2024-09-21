@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { TaskState, adapter } from '../reducers/tasks.reducers'
+import { TaskState, taskAdapter } from '../reducers/tasks.reducers'
 
 export const selectTaskState = createFeatureSelector<TaskState>('tasks')
 
@@ -8,7 +8,7 @@ export const {
   selectEntities: selectTaskEntities,
   selectIds: selectTaskIds,
   selectTotal: selectTaskTotal,
-} = adapter.getSelectors(selectTaskState)
+} = taskAdapter.getSelectors(selectTaskState)
 
 export const selectLoading = createSelector(
   selectTaskState,

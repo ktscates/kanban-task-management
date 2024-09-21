@@ -1,19 +1,19 @@
-import { inject, Injectable } from '@angular/core'
-import { Actions, ofType, createEffect } from '@ngrx/effects'
-import { SubtasksService } from '../../services/subtasks/subtasks.service'
+import { Injectable, inject } from '@angular/core'
+import { Actions, createEffect, ofType } from '@ngrx/effects'
 import * as SubtaskActions from '../actions/subtasks.actions'
 import { catchError, map, mergeMap, of } from 'rxjs'
+import { DataService } from '../../services/data/data.service'
 
 @Injectable()
 export class SubtaskEffects {
   private actions$ = inject(Actions)
-  constructor(private subtasksService: SubtasksService) {}
+  constructor(private dataService: DataService) {}
 
   loadSubtasks$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SubtaskActions.loadSubtasks),
       mergeMap(({ boardName, columnName, taskName }) =>
-        this.subtasksService.getSubtasks(boardName, columnName, taskName).pipe(
+        of(this.dataService.getSubtasks(boardName, columnName, taskName)).pipe(
           map(subtasks => SubtaskActions.loadSubtasksSuccess({ subtasks })),
           catchError(error => of(SubtaskActions.loadSubtasksFailure({ error })))
         )
@@ -21,18 +21,31 @@ export class SubtaskEffects {
     )
   )
 
-  loadSubtask$ = createEffect(() =>
+  loadOneSubtask$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SubtaskActions.loadSubtask),
+      ofType(SubtaskActions.loadOneSubtask),
       mergeMap(({ boardName, columnName, taskName, subtaskName }) =>
-        this.subtasksService
-          .getSubtask(boardName, columnName, taskName, subtaskName)
-          .pipe(
-            map(subtask => SubtaskActions.loadSubtaskSuccess({ subtask })),
-            catchError(error =>
-              of(SubtaskActions.loadSubtaskFailure({ error }))
-            )
+        of(
+          this.dataService.getSubtask(
+            boardName,
+            columnName,
+            taskName,
+            subtaskName
           )
+        ).pipe(
+          map(subtask => {
+            if (subtask) {
+              return SubtaskActions.loadOneSubtaskSuccess({ subtask })
+            } else {
+              return SubtaskActions.loadOneSubtaskFailure({
+                error: 'Subtask not found',
+              })
+            }
+          }),
+          catchError(error =>
+            of(SubtaskActions.loadOneSubtaskFailure({ error }))
+          )
+        )
       )
     )
   )
@@ -41,12 +54,12 @@ export class SubtaskEffects {
     this.actions$.pipe(
       ofType(SubtaskActions.addSubtask),
       mergeMap(({ boardName, columnName, taskName, subtask }) =>
-        this.subtasksService
-          .addSubtask(boardName, columnName, taskName, subtask)
-          .pipe(
-            map(subtask => SubtaskActions.addSubtaskSuccess({ subtask })),
-            catchError(error => of(SubtaskActions.addSubtaskFailure({ error })))
-          )
+        of(
+          this.dataService.addSubtask(boardName, columnName, taskName, subtask)
+        ).pipe(
+          map(() => SubtaskActions.addSubtaskSuccess({ subtask })),
+          catchError(error => of(SubtaskActions.addSubtaskFailure({ error })))
+        )
       )
     )
   )
@@ -54,15 +67,20 @@ export class SubtaskEffects {
   updateSubtask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SubtaskActions.updateSubtask),
-      mergeMap(({ boardName, columnName, taskName, subtaskName, subtask }) =>
-        this.subtasksService
-          .updateSubtask(boardName, columnName, taskName, subtaskName, subtask)
-          .pipe(
-            map(subtask => SubtaskActions.updateSubtaskSuccess({ subtask })),
-            catchError(error =>
-              of(SubtaskActions.updateSubtaskFailure({ error }))
-            )
+      mergeMap(({ boardName, columnName, taskName, subtask }) =>
+        of(
+          this.dataService.updateSubtask(
+            boardName,
+            columnName,
+            taskName,
+            subtask
           )
+        ).pipe(
+          map(() => SubtaskActions.updateSubtaskSuccess({ subtask })),
+          catchError(error =>
+            of(SubtaskActions.updateSubtaskFailure({ error }))
+          )
+        )
       )
     )
   )
@@ -71,14 +89,19 @@ export class SubtaskEffects {
     this.actions$.pipe(
       ofType(SubtaskActions.deleteSubtask),
       mergeMap(({ boardName, columnName, taskName, subtaskName }) =>
-        this.subtasksService
-          .deleteSubtask(boardName, columnName, taskName, subtaskName)
-          .pipe(
-            map(() => SubtaskActions.deleteSubtaskSuccess({ subtaskName })),
-            catchError(error =>
-              of(SubtaskActions.deleteSubtaskFailure({ error }))
-            )
+        of(
+          this.dataService.deleteSubtask(
+            boardName,
+            columnName,
+            taskName,
+            subtaskName
           )
+        ).pipe(
+          map(() => SubtaskActions.deleteSubtaskSuccess({ subtaskName })),
+          catchError(error =>
+            of(SubtaskActions.deleteSubtaskFailure({ error }))
+          )
+        )
       )
     )
   )

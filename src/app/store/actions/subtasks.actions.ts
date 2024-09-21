@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store'
 import { Subtask } from '../../model/model'
 
-// Load subtasks
+// Load all subtasks
 export const loadSubtasks = createAction(
   '[Subtask] Load Subtasks',
   props<{ boardName: string; columnName: string; taskName: string }>()
@@ -9,7 +9,7 @@ export const loadSubtasks = createAction(
 
 export const loadSubtasksSuccess = createAction(
   '[Subtask] Load Subtasks Success',
-  props<{ subtasks: Subtask[] }>() // Correctly expecting an array of Subtask
+  props<{ subtasks: Subtask[] }>()
 )
 
 export const loadSubtasksFailure = createAction(
@@ -17,9 +17,9 @@ export const loadSubtasksFailure = createAction(
   props<{ error: unknown }>()
 )
 
-// Load single subtask
-export const loadSubtask = createAction(
-  '[Subtask] Load Subtask',
+// Load one subtask
+export const loadOneSubtask = createAction(
+  '[Subtask] Load One Subtask',
   props<{
     boardName: string
     columnName: string
@@ -28,13 +28,13 @@ export const loadSubtask = createAction(
   }>()
 )
 
-export const loadSubtaskSuccess = createAction(
-  '[Subtask] Load Subtask Success',
+export const loadOneSubtaskSuccess = createAction(
+  '[Subtask] Load One Subtask Success',
   props<{ subtask: Subtask }>()
 )
 
-export const loadSubtaskFailure = createAction(
-  '[Subtask] Load Subtask Failure',
+export const loadOneSubtaskFailure = createAction(
+  '[Subtask] Load One Subtask Failure',
   props<{ error: unknown }>()
 )
 
@@ -66,7 +66,6 @@ export const updateSubtask = createAction(
     boardName: string
     columnName: string
     taskName: string
-    subtaskName: string
     subtask: Subtask
   }>()
 )

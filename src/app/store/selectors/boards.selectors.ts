@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { adapter, BoardState } from '../reducers/boards.reducers'
+import { boardAdapter, BoardState } from '../reducers/boards.reducers'
 
 export const selectBoardState = createFeatureSelector<BoardState>('boards')
 
@@ -8,7 +8,7 @@ export const {
   selectEntities: selectBoardEntities,
   selectIds: selectBoardIds,
   selectTotal: selectBoardTotal,
-} = adapter.getSelectors(selectBoardState)
+} = boardAdapter.getSelectors(selectBoardState)
 
 // Select a single board (from selectedBoard in state)
 export const selectCurrentBoard = createSelector(

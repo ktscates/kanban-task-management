@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { SubtaskState, adapter } from '../reducers/subtasks.reducers'
+import { SubtaskState, subtaskAdapter } from '../reducers/subtasks.reducers'
 
 export const selectSubtaskState =
   createFeatureSelector<SubtaskState>('subtasks')
@@ -9,7 +9,7 @@ export const {
   selectEntities: selectSubtaskEntities,
   selectIds: selectSubtaskIds,
   selectTotal: selectSubtaskTotal,
-} = adapter.getSelectors(selectSubtaskState)
+} = subtaskAdapter.getSelectors(selectSubtaskState)
 
 export const selectLoading = createSelector(
   selectSubtaskState,

@@ -35,7 +35,7 @@ export class SidebarComponent implements OnInit {
   }
 
   selectBoard(board: Board): void {
-    this.store.dispatch(BoardActions.loadBoard({ name: board.name }))
+    this.store.dispatch(BoardActions.loadBoard({ boardName: board.name }))
     this.boardSelected.emit(board)
     console.log('button clicked!', board)
   }

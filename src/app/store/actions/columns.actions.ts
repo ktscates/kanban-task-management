@@ -1,10 +1,11 @@
+// src/app/store/column/column.actions.ts
 import { createAction, props } from '@ngrx/store'
 import { Column } from '../../model/model'
 
-// Load columns
+// Load all columns
 export const loadColumns = createAction(
   '[Column] Load Columns',
-  props<{ boardName: string }>()
+  props<{ boardName: string }>() // Corrected to include boardName
 )
 
 export const loadColumnsSuccess = createAction(
@@ -18,18 +19,18 @@ export const loadColumnsFailure = createAction(
 )
 
 // Load one column
-export const loadColumn = createAction(
-  '[Column] Load Column',
+export const loadOneColumn = createAction(
+  '[Column] Load One Column',
   props<{ boardName: string; columnName: string }>()
 )
 
-export const loadColumnSuccess = createAction(
-  '[Column] Load Column Success',
+export const loadOneColumnSuccess = createAction(
+  '[Column] Load One Column Success',
   props<{ column: Column }>()
 )
 
-export const loadColumnFailure = createAction(
-  '[Column] Load Column Failure',
+export const loadOneColumnFailure = createAction(
+  '[Column] Load One Column Failure',
   props<{ error: unknown }>()
 )
 
@@ -52,7 +53,7 @@ export const addColumnFailure = createAction(
 // Update column
 export const updateColumn = createAction(
   '[Column] Update Column',
-  props<{ boardName: string; columnName: string; column: Column }>()
+  props<{ boardName: string; column: Column }>()
 )
 
 export const updateColumnSuccess = createAction(

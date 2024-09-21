@@ -1,71 +1,68 @@
+// actions/board.actions.ts
 import { createAction, props } from '@ngrx/store'
 import { Board } from '../../model/model'
 
-// Load All Boards
-export const loadBoards = createAction('[Board List] Load Boards')
+export const loadBoards = createAction('[Board] Load Boards')
 export const loadBoardsSuccess = createAction(
-  '[Board List] Load Boards Success',
+  '[Board] Load Boards Success',
   props<{ boards: Board[] }>()
 )
 export const loadBoardsFailure = createAction(
-  '[Board List] Load Boards Failure',
+  '[Board] Load Boards Failure',
   props<{ error: unknown }>()
 )
 
-// Load one Board
+// Load One Board by Name
 export const loadBoard = createAction(
-  '[Board Detail] Load Board',
-  props<{ name: string }>()
+  '[Board] Load Board',
+  props<{ boardName: string }>()
 )
-
 export const loadBoardSuccess = createAction(
-  '[Board Detail] Load Board Success',
+  '[Board] Load Board Success',
   props<{ board: Board }>()
 )
-
 export const loadBoardFailure = createAction(
-  '[Board Detail] Load Board Failure',
+  '[Board] Load Board Failure',
   props<{ error: unknown }>()
 )
 
-// Create Board
 export const addBoard = createAction(
-  '[Board List] Add Board',
+  '[Board] Add Board',
   props<{ board: Board }>()
 )
 export const addBoardSuccess = createAction(
-  '[Board List] Add Board Success',
+  '[Board] Add Board Success',
   props<{ board: Board }>()
 )
 export const addBoardFailure = createAction(
-  '[Board List] Add Board Failure',
+  '[Board] Add Board Failure',
   props<{ error: unknown }>()
 )
 
-// Update Board
 export const updateBoard = createAction(
-  '[Board List] Update Board',
+  '[Board] Update Board',
   props<{ board: Board }>()
 )
+
 export const updateBoardSuccess = createAction(
-  '[Board List] Update Board Success',
+  '[Board] Update Board Success',
   props<{ board: Board }>()
 )
+
 export const updateBoardFailure = createAction(
-  '[Board List] Update Board Failure',
+  '[Board] Update Board Failure',
   props<{ error: unknown }>()
 )
 
-// Delete Board
 export const deleteBoard = createAction(
-  '[Board List] Delete Board',
-  props<{ boardId: string }>()
+  '[Board] Delete Board',
+  props<{ boardName: string }>()
 )
 export const deleteBoardSuccess = createAction(
-  '[Board List] Delete Board Success',
-  props<{ boardId: string }>()
+  '[Board] Delete Board Success',
+  props<{ boardName: string }>()
 )
 export const deleteBoardFailure = createAction(
-  '[Board List] Delete Board Failure',
+  '[Board] Delete Board Failure',
   props<{ error: unknown }>()
 )

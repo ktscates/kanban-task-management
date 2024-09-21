@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { BoardModalComponent } from './board-modal.component';
+import { BoardModalComponent } from './board-modal.component'
 
 describe('BoardModalComponent', () => {
-  let component: BoardModalComponent;
-  let fixture: ComponentFixture<BoardModalComponent>;
+  let component: BoardModalComponent
+  let fixture: ComponentFixture<BoardModalComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BoardModalComponent]
-    })
-    .compileComponents();
+      imports: [BoardModalComponent],
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(BoardModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(BoardModalComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

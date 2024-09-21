@@ -1,0 +1,25 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+@if (column) {
+  <div class="w-[280px]">
+    <div class="flex gap-2 items-center">
+      <div class="bg-cyan-primary p-2 w-4 h-4 rounded-full"></div>
+      <h3>{{ column.name }}</h3>
+    </div>
+    <div>
+      @for (task of column.tasks; track $index) {
+        <div
+          class="bg-white-primary px-4 py-6 rounded-xl shadow-lg w-[280px] mt-6 cursor-pointer"
+          (click)="onTaskClick(task)"
+        >
+          <h3 class="text-black-primary font-bold text-base">
+            {{ task.title }}
+          </h3>
+          <p class="text-grey-primary text-xs font-bold mt-3">
+            0 of {{ task.subtasks.length }} substasks
+          </p>
+        </div>
+      }
+    </div>
+  </div>
+}

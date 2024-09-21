@@ -1,0 +1,95 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div
+  class="fixed inset-0 bg-black-primary bg-opacity-70 flex items-center justify-center z-50"
+  (click)="close()"
+>
+  <div
+    class="bg-white-primary rounded-md shadow-2xl w-full max-w-lg p-6"
+    (click)="$event.stopPropagation()"
+  >
+    <h2 class="text-lg font-bold mb-6">Add New Task</h2>
+
+    <div class="mb-6">
+      <label
+        class="block font-semibold mb-2 text-grey-primary text-sm"
+        for="board-name"
+      >
+        Title
+      </label>
+      <input
+        class="appearance-none placeholder:text-grey-primary placeholder:text-sm text-black-primary border border-grey-primary border-opacity-20 rounded w-full py-3 px-3"
+        id="board-name"
+        type="text"
+        placeholder="e.g. Take coffee break"
+      />
+    </div>
+    <div class="mb-6">
+      <label
+        class="block font-semibold mb-2 text-grey-primary text-sm"
+        for="board-name"
+      >
+        Description
+      </label>
+      <textarea
+        class="appearance-none placeholder:text-grey-primary placeholder:text-sm text-black-primary border border-grey-primary border-opacity-20 rounded w-full py-3 px-3"
+        id="board-name"
+        placeholder="e.g. It’s always good to take a break. This 15 minute break will recharge the batteries a little."
+        rows="5"
+      ></textarea>
+    </div>
+
+    <div class="mb-4">
+      <h3 class="block text-grey-primary text-sm font-semibold mb-2">
+        Subtasks
+      </h3>
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <input
+            class="appearance-none border placeholder:text-grey-primary placeholder:text-sm text-black-primary border-grey-primary border-opacity-20 rounded w-full py-3 px-3 text-gray-700 leading-tight"
+            type="text"
+            placeholder="e.g. Make coffee"
+          />
+          <button class="text-red-500 hover:text-red-700">
+            <app-icons iconType="icon-remove" />
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <input
+            class="appearance-none placeholder:text-grey-primary placeholder:text-sm text-black-primary border border-grey-primary border-opacity-20 rounded w-full py-3 px-3 text-gray-700 leading-tight"
+            type="text"
+            placeholder="e.g. Drink coffee & smile"
+          />
+          <button class="text-red-500 hover:text-red-700">
+            <app-icons iconType="icon-remove" />
+          </button>
+        </div>
+        <button
+          class="w-full bg-purple-primary bg-opacity-15 dark:bg-gray-600 text-sm font-bold text-purple-primary rounded-full py-3 mt-6"
+        >
+          + Add New Subtask
+        </button>
+      </div>
+    </div>
+
+    <div class="mb-6">
+      <label
+        class="block font-semibold mb-2 text-grey-primary text-sm"
+        for="board-name"
+      >
+        Status
+      </label>
+      <div
+        class="flex justify-between items-center appearance-none placeholder:text-grey-primary placeholder:text-sm text-black-primary border border-grey-primary border-opacity-20 rounded w-full py-3 px-3"
+      >
+        <input type="text" placeholder="e.g. Drink coffee & smile" />
+        <app-icons iconType="icon-down" />
+      </div>
+    </div>
+    <button
+      class="w-full bg-purple-primary text-white-primary font-bold py-3 text-sm rounded-full hover:bg-purple-600"
+    >
+      Create New Task
+    </button>
+  </div>
+</div>

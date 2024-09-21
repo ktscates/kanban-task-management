@@ -1,1 +1,26 @@
-<p>header works!</p>
+<nav
+  class="flex justify-between items-center bg-white-primary dark:bg-dark-grey-primary px-8 shadow-sm fixed top-0 left-0 w-full h-[97px] z-10"
+>
+  <div class="flex items-center">
+    <app-icons class="w-[268px] dark:hidden block" iconType="icon-logo-dark" />
+    <app-icons class="w-[268px] dark:block hidden" iconType="icon-logo-light" />
+    <div
+      class="border-r border-grey-hover dark:border-dark-grey-hover h-[97px]"
+    ></div>
+    <h1
+      class="text-black-primary dark:text-white-primary text-2xl font-bold pl-6"
+    >
+      Platform Launch
+    </h1>
+  </div>
+  <div class="flex gap-6 items-center">
+    <button
+      class="flex gap-2 items-center rounded-full px-6 py-4 bg-purple-primary text-white-primary text-base font-bold cursor-pointer"
+      (click)="open()"
+    >
+      <app-icons iconType="icon-add" />Add new task
+    </button>
+
+    <app-icons iconType="icon-ellipsis" />
+  </div>
+</nav>

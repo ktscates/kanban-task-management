@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: ['./src/**/*.{html,ts}'],
   theme: {
     extend: {
@@ -23,6 +24,11 @@ module.exports = {
       white: {
         primary: '#ffffff',
         hover: '#f4f7fD',
+      },
+      cyan: {
+        primary: '#49C4E5',
+        purple: '#8471F2',
+        green: '#67E2AE',
       },
       red: {
         primary: '#EA5555',

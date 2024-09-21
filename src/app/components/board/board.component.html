@@ -1,0 +1,12 @@
+@if (selectedBoard$ | async) {
+  <div class="flex justify-start gap-6">
+    @for (column of (selectedBoard$ | async)!.columns; track $index) {
+      <div>
+        <app-column
+          [column]="column"
+          (taskClicked)="onTaskSelect($event)"
+        ></app-column>
+      </div>
+    }
+  </div>
+}

@@ -1,0 +1,31 @@
+<div
+  class="min-h-screen font-primary bg-white-hover dark:bg-black-hover flex flex-col"
+>
+  <app-header (openTaskModal)="openTaskModal()" />
+  <div class="flex">
+    <app-sidebar
+      [switchThemes]="switchThemes.bind(this)"
+      [isDarkMode]="switchedToDarkMode"
+      class="w-64 fixed left-0 top-16 bottom-0"
+      (openBoardModal)="openBoardModal()"
+    />
+  </div>
+  <div class="absolute top-40 left-80">
+    <app-board />
+  </div>
+
+  <app-board-modal
+    *ngIf="isBoardModalOpen$ | async"
+    (closeBoardModal)="closeBoardModal()"
+  />
+  <app-task-modal
+    *ngIf="isTaskModalOpen$ | async"
+    (closeTaskModal)="closeTaskModal()"
+  />
+
+  <app-task-modal-display
+    *ngIf="(taskDisplayModal$ | async)?.isOpen"
+    [selectedTask]="(taskDisplayModal$ | async)!.task"
+    (closeTaskDisplay)="closeTaskDisplay()"
+  ></app-task-modal-display>
+</div>

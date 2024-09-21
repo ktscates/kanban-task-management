@@ -1,1 +1,61 @@
-<p>sidebar works!</p>
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<div
+  class="w-[300px] bg-white-primary dark:bg-dark-grey-primary shadow-sm fixed top-[97px] left-0 h-[calc(100vh-97px)] flex flex-col justify-between"
+>
+  <div>
+    <p
+      class="px-8 pt-4 text-grey-primary font-bold text-xs uppercase tracking-widest"
+    >
+      All boards ({{ totalBoard$ | async }})
+    </p>
+
+    <div class="mt-5">
+      @for (board of boards$ | async; track $index) {
+        <div
+          class="flex gap-4 items-center bg-purple-primary px-8 py-4 rounded-r-full mr-10 text-base text-white-primary font-bold cursor-pointer"
+          (click)="selectBoard(board)"
+        >
+          <app-icons iconType="icon-board" />
+          <h1>{{ board.name }}</h1>
+        </div>
+      }
+      <div
+        class="flex gap-4 items-center px-8 py-4 rounded-r-full mr-10 text-base text-grey-primary font-bold"
+      >
+        <app-icons iconType="icon-board" />
+        <button
+          class="flex gap-2 text-purple-primary items-center"
+          (click)="open()"
+        >
+          <app-icons iconType="icon-add" />
+          Create new board
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div
+      class="flex justify-center items-center gap-6 bg-grey-primary dark:bg-black-hover mx-8 py-3 rounded-md bg-opacity-15"
+    >
+      <app-icons iconType="icon-light" />
+      <label class="switch">
+        <input
+          type="checkbox"
+          [checked]="isDarkMode"
+          (change)="switchThemes()"
+        />
+        <span class="slider"></span>
+      </label>
+      <app-icons iconType="icon-dark" />
+    </div>
+    <div class="py-2">
+      <p
+        class="flex gap-4 items-center px-8 py-4 rounded-r-full mr-10 text-base text-grey-primary font-bold"
+      >
+        <app-icons iconType="icon-hide-sidebar" /> Hide Sidebar
+      </p>
+    </div>
+  </div>
+</div>

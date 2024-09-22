@@ -2,6 +2,8 @@
 import { createAction, props } from '@ngrx/store'
 import { Board } from '../../model/model'
 
+export const clearCurrentBoard = createAction('[Board] Clear Current Board')
+
 export const loadBoards = createAction('[Board] Load Boards')
 export const loadBoardsSuccess = createAction(
   '[Board] Load Boards Success',

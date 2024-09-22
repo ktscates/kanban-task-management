@@ -103,10 +103,19 @@ export class DataService {
   addColumn(boardName: string, column: Column): void {
     const data = this.getData()
     const board = data.boards.find((board: Board) => board.name === boardName)
+
     if (board) {
-      // Ensure tasks property is initialized
       const columnWithTasks = { ...column, tasks: column.tasks || [] }
-      board.columns.push(columnWithTasks)
+      const existingColumnIndex = board.columns.findIndex(
+        (existingColumn: Column) => existingColumn.name === columnWithTasks.name
+      )
+
+      if (existingColumnIndex === -1) {
+        board.columns.push(columnWithTasks)
+      } else {
+        board.columns[existingColumnIndex] = columnWithTasks
+      }
+
       this.saveData(data)
     }
   }

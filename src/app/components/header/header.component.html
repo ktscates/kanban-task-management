@@ -21,6 +21,22 @@
       <app-icons iconType="icon-add" />Add new task
     </button>
 
-    <app-icons iconType="icon-ellipsis" />
+    <div class="relative cursor-pointer">
+      <app-icons iconType="icon-ellipsis" (click)="toggleDropdown()" />
+      @if (dropdownOpen) {
+        <div
+          class="absolute top-full right-0 mt-10 w-48 bg-white-primary shadow-xl rounded-lg"
+        >
+          <ul class="list-none p-4 space-y-4 m-0">
+            <li>
+              <button (click)="editBoard()">Edit Board</button>
+            </li>
+            <li>
+              <button (click)="deleteBoard()">Delete Board</button>
+            </li>
+          </ul>
+        </div>
+      }
+    </div>
   </div>
 </nav>

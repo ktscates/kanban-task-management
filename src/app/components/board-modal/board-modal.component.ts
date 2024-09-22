@@ -47,14 +47,17 @@ export class BoardModalComponent implements OnInit {
       columns: this.fb.array([]), // Initialize columns as a FormArray
     })
 
-    // Subscribe to the current board for edit mode
     this.currentBoard$ = this.store.select(BoardsSelectors.selectCurrentBoard)
 
     this.currentBoard$.subscribe(board => {
       if (board) {
         this.isEditMode = true
-        this.boardForm.patchValue({ boardName: board.name })
-        this.setColumns(board.columns) // Populate the columns in edit mode
+        this.boardForm.patchValue({ name: board.name })
+        this.setColumns(board.columns)
+      } else {
+        this.isEditMode = false
+        this.boardForm.reset()
+        this.columns.clear() // Ensure columns are cleared for a new board
       }
     })
   }
@@ -80,10 +83,11 @@ export class BoardModalComponent implements OnInit {
   // Populate columns form array when in edit mode
   setColumns(columns: Column[]) {
     const columnFGs = columns.map(column =>
-      this.fb.group({ name: [column.name, Validators.required] })
+      this.fb.group({
+        name: [column.name, Validators.required],
+      })
     )
-    const columnFormArray = this.fb.array(columnFGs)
-    this.boardForm.setControl('columns', columnFormArray)
+    this.boardForm.setControl('columns', this.fb.array(columnFGs))
   }
 
   // Close the modal

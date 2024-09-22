@@ -24,6 +24,10 @@ export const initialBoardState: BoardState = boardAdapter.getInitialState({
 export const boardReducer = createReducer(
   initialBoardState,
 
+  on(BoardActions.clearCurrentBoard, state => ({
+    ...state,
+    selectedBoard: null,
+  })),
   // Load Boards
   on(BoardActions.loadBoards, state => ({
     ...state,

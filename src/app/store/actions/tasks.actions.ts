@@ -17,7 +17,7 @@ export const loadTasksFailure = createAction(
   props<{ error: unknown }>()
 )
 
-// Load one task
+// Load task
 export const loadOneTask = createAction(
   '[Task] Load One Task',
   props<{ boardName: string; columnName: string; taskName: string }>()

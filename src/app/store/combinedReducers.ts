@@ -5,7 +5,7 @@ import { columnReducer } from './reducers/columns.reducers'
 import { taskReducer } from './reducers/tasks.reducers'
 import { subtaskReducer } from './reducers/subtasks.reducers'
 
-export const coombinedReducers: ActionReducerMap<AppState> = {
+export const combinedReducers: ActionReducerMap<AppState> = {
   boards: boardReducer,
   columns: columnReducer,
   tasks: taskReducer,

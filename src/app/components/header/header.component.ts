@@ -42,7 +42,6 @@ export class HeaderComponent {
   }
 
   deleteBoard() {
-    // Implement delete board functionality
-    console.log('Delete board functionality needs to be implemented')
+    console.log('Delete board')
   }
 }

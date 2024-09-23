@@ -5,7 +5,7 @@ import { Column } from '../../model/model'
 // Load all columns
 export const loadColumns = createAction(
   '[Column] Load Columns',
-  props<{ boardName: string }>() // Corrected to include boardName
+  props<{ boardName: string }>()
 )
 
 export const loadColumnsSuccess = createAction(
@@ -18,7 +18,7 @@ export const loadColumnsFailure = createAction(
   props<{ error: unknown }>()
 )
 
-// Load one column
+// Load column
 export const loadOneColumn = createAction(
   '[Column] Load One Column',
   props<{ boardName: string; columnName: string }>()

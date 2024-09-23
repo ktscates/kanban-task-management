@@ -10,7 +10,7 @@ export const {
   selectTotal: selectBoardTotal,
 } = boardAdapter.getSelectors(selectBoardState)
 
-// Select a single board (from selectedBoard in state)
+// Select a single board
 export const selectCurrentBoard = createSelector(
   selectBoardState,
   (state: BoardState) => state.selectedBoard

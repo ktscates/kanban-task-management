@@ -5,7 +5,7 @@ import { Column } from '../../model/model'
 import * as ColumnActions from '../actions/columns.actions'
 
 export const columnAdapter = createEntityAdapter<Column>({
-  selectId: column => column.name, // Using `name` as the unique identifier for boards
+  selectId: column => column.name,
 })
 
 export interface ColumnState extends EntityState<Column> {

@@ -10,7 +10,7 @@ import { provideHttpClient } from '@angular/common/http'
 import { provideStore } from '@ngrx/store'
 import { provideEffects } from '@ngrx/effects'
 import { BoardEffects } from './store/effects/boards.effects'
-import { coombinedReducers } from './store/combinedReducers'
+import { combinedReducers } from './store/combinedReducers'
 import { ColumnEffects } from './store/effects/columns.effects'
 import { TaskEffects } from './store/effects/tasks.effects'
 import { SubtaskEffects } from './store/effects/subtasks.effects'
@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(),
-    provideStore(coombinedReducers),
+    provideStore(combinedReducers),
     provideEffects([BoardEffects, ColumnEffects, TaskEffects, SubtaskEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],

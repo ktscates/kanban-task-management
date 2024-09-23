@@ -11,7 +11,6 @@ export class DataService {
   private storageKey = 'kanbanData'
   private jsonFile = 'assets/data.json'
 
-  // Load initial data from JSON file if localStorage is empty
   constructor(private http: HttpClient) {
     this.initializeLocalStorage()
   }
@@ -31,7 +30,7 @@ export class DataService {
 
   private getData() {
     const data = localStorage.getItem(this.storageKey)
-    return data ? JSON.parse(data) : { boards: [] } // Default structure
+    return data ? JSON.parse(data) : { boards: [] }
   }
 
   private saveData(data: object): void {

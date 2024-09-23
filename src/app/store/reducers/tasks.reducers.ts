@@ -4,7 +4,7 @@ import { Task } from '../../model/model'
 import * as TaskActions from '../actions/tasks.actions'
 
 export const taskAdapter = createEntityAdapter<Task>({
-  selectId: task => task.title, // Using `name` as the unique identifier for tasks
+  selectId: task => task.title,
 })
 
 export interface TaskState extends EntityState<Task> {

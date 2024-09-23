@@ -14,7 +14,7 @@ export const loadBoardsFailure = createAction(
   props<{ error: unknown }>()
 )
 
-// Load One Board by Name
+// Load Board
 export const loadBoard = createAction(
   '[Board] Load Board',
   props<{ boardName: string }>()

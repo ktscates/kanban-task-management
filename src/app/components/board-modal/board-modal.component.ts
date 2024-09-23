@@ -30,7 +30,6 @@ export class BoardModalComponent implements OnInit {
   currentBoard$!: Observable<Board | null | undefined>
   isEditMode = false
 
-  // Access the columns form array
   get columns(): FormArray {
     return this.boardForm.get('columns') as FormArray
   }
@@ -44,7 +43,7 @@ export class BoardModalComponent implements OnInit {
   ngOnInit(): void {
     this.boardForm = this.fb.group({
       name: ['', Validators.required],
-      columns: this.fb.array([]), // Initialize columns as a FormArray
+      columns: this.fb.array([]),
     })
 
     this.currentBoard$ = this.store.select(BoardsSelectors.selectCurrentBoard)
@@ -57,30 +56,26 @@ export class BoardModalComponent implements OnInit {
       } else {
         this.isEditMode = false
         this.boardForm.reset()
-        this.columns.clear() // Ensure columns are cleared for a new board
+        this.columns.clear()
       }
     })
   }
 
-  // Function to create a column form group
   createColumn(): FormGroup {
     return this.fb.group({
       name: ['', Validators.required],
     })
   }
 
-  // Function to add a new column input
   addColumnInput() {
     this.columns.push(this.createColumn())
-    console.log('Columns after adding:', this.columns.value) // Log the columns array
+    console.log('Columns after adding:', this.columns.value)
   }
 
-  // Function to remove a column input
   removeColumnInput(index: number) {
     this.columns.removeAt(index)
   }
 
-  // Populate columns form array when in edit mode
   setColumns(columns: Column[]) {
     const columnFGs = columns.map(column =>
       this.fb.group({
@@ -90,7 +85,6 @@ export class BoardModalComponent implements OnInit {
     this.boardForm.setControl('columns', this.fb.array(columnFGs))
   }
 
-  // Close the modal
   close() {
     this.modalService.closeBoardModal()
   }
@@ -98,19 +92,16 @@ export class BoardModalComponent implements OnInit {
   onSave() {
     const board: Board = this.boardForm.value
 
-    // Debug log to check if columns are correctly in the form
     console.log('Form Submission:', this.boardForm.value)
 
-    // Dispatch add or update action based on mode
     if (this.isEditMode) {
       this.store.dispatch(BoardsActions.updateBoard({ board }))
     } else {
       this.store.dispatch(BoardsActions.addBoard({ board }))
     }
 
-    // Ensure that columns are included in the form
     const columns = this.columns.value as Column[]
-    console.log('Columns to be saved:', columns) // Log the columns array
+    console.log('Columns to be saved:', columns)
 
     if (this.isEditMode) {
       columns.forEach(column => {
@@ -119,7 +110,7 @@ export class BoardModalComponent implements OnInit {
             boardName: board.name,
             column: {
               ...column,
-              tasks: [], // Ensure that tasks array is empty when adding
+              tasks: [],
             },
           })
         )
@@ -132,7 +123,7 @@ export class BoardModalComponent implements OnInit {
             boardName: board.name,
             column: {
               ...column,
-              tasks: [], // Ensure that tasks array is empty when adding
+              tasks: [],
             },
           })
         )

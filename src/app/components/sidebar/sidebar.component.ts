@@ -41,7 +41,7 @@ export class SidebarComponent implements OnInit {
   }
 
   open() {
-    this.store.dispatch(BoardActions.clearCurrentBoard()) // Reset the selected board
+    this.store.dispatch(BoardActions.clearCurrentBoard())
     this.openBoardModal.emit()
   }
 }

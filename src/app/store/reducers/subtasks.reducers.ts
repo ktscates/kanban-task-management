@@ -4,7 +4,7 @@ import { Subtask } from '../../model/model'
 import * as SubtaskActions from '../actions/subtasks.actions'
 
 export const subtaskAdapter = createEntityAdapter<Subtask>({
-  selectId: subtask => subtask.title, // Using `name` as the unique identifier for subtasks
+  selectId: subtask => subtask.title,
 })
 
 export interface SubtaskState extends EntityState<Subtask> {

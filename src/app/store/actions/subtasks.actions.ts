@@ -17,7 +17,7 @@ export const loadSubtasksFailure = createAction(
   props<{ error: unknown }>()
 )
 
-// Load one subtask
+// Load subtask
 export const loadOneSubtask = createAction(
   '[Subtask] Load One Subtask',
   props<{

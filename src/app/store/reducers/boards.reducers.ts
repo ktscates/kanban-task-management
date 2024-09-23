@@ -6,7 +6,7 @@ import * as BoardActions from '../actions/boards.actions'
 
 // NgRx Entity adapter for Board
 export const boardAdapter = createEntityAdapter<Board>({
-  selectId: board => board.name, // Using `name` as the unique identifier for boards
+  selectId: board => board.name,
 })
 
 export interface BoardState extends EntityState<Board> {
@@ -18,16 +18,18 @@ export interface BoardState extends EntityState<Board> {
 export const initialBoardState: BoardState = boardAdapter.getInitialState({
   loading: false,
   error: null,
-  selectedBoard: null, // To track the currently loaded board
+  selectedBoard: null,
 })
 
 export const boardReducer = createReducer(
   initialBoardState,
 
+  // Clear current board
   on(BoardActions.clearCurrentBoard, state => ({
     ...state,
     selectedBoard: null,
   })),
+
   // Load Boards
   on(BoardActions.loadBoards, state => ({
     ...state,
@@ -46,7 +48,7 @@ export const boardReducer = createReducer(
     error,
   })),
 
-  // Load One Board by Name
+  // Load Board
   on(BoardActions.loadBoard, state => ({
     ...state,
     loading: true,
